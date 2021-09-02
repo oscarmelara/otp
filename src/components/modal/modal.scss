@@ -1,0 +1,128 @@
+
+.modal {
+  --modal-gap-x: 20px;
+  --modal-gap-y: 25px;
+  --modal-content-gap-x: 40px;
+  --modal-content-gap-y: 30px;
+
+  background-color: rgba(36, 36, 36, .75);
+  height: 100%;
+  left: 0;
+  opacity: 0;
+  overflow-y: auto;
+  padding: var(--modal-gap-y) var(--modal-gap-x);
+  position: fixed;
+  top: 0;
+  transition: all .2s linear;
+  visibility: hidden;
+  width: 100%;
+  z-index: 1000;
+
+  &.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  &-container {
+    margin: auto;
+    width: 100%;
+    max-width: 450px;
+  }
+
+  &-content {
+    background-color: white;
+    border-radius: 16px;
+    padding: var(--modal-content-gap-y) var(--modal-content-gap-x);
+  }
+
+  .icon-container {
+    /**/
+
+    .img-icon {
+      display: inline-block;
+      width: 28px;
+    }
+  }
+
+  .text {
+    font-size: 14px;
+    color: #999999;
+    line-height: 1.1;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .actions {
+    --action-link-gap-x: 36px;
+    --action-link-gap-y: 15px;
+
+    .link {
+      background: #041E41;
+      border-radius: 30px;
+      color: white;
+      display: inline-block;
+      font-size: 14px;
+      margin: 0 5px;
+      padding: var(--action-link-gap-y) var(--action-link-gap-x);
+      transition: opacity .2s linear;
+
+      &:hover {
+        opacity: .75;
+      }
+
+      &.type {
+        /**/
+
+        &-agree, &-cancel {
+          /**/
+        }
+
+        &-success {
+          background-color: #0277BD;
+        }
+
+        &-agree {
+          width: 100%;
+          max-width: 228px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .modal {
+    --modal-content-gap-x: 25px;
+    --modal-content-gap-y: 40px;
+
+    .text {
+      font-size: 20px;
+    }
+
+    .actions {
+      /**/
+
+      .link {
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+@media (max-width: 380px) {
+  .modal {
+    /**/
+
+    .actions {
+      /**/
+
+      .link {
+        display: block;
+
+        &:not(:last-child) {
+          margin-bottom: 5px;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,86 @@
+
+.base-tree {
+  height: 100%;
+
+  body, .root {
+    height: 100%;
+  }
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  .dark-gray-text {
+    color: #999999;
+  }
+  .dark-text {
+    color: #333333;
+  }
+  .blue-text {
+    color: #4b7cf3;
+  }
+  .bg-gray {
+    background-color: #f2f4f8;
+  }
+  .box-shadow {
+    box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+  }
+  .main-input {
+    border: 1px solid #e4e9f0;
+    border-radius: 8px;
+    color: var(--text-color);
+    outline: none;
+    width: 100%;
+
+    &::placeholder {
+      color: #D6DBDF;
+    }
+  }
+  .main-input-search {
+    background-color: transparent;
+    color: var(--text-color);
+    outline: none;
+    width: 100%;
+    &::placeholder {
+      color: #B3B3B3;
+    }
+  }
+}
+
+
+.root {
+  --color-lightblue: #60B2DE;
+
+  --nav-height: 115px;
+  --nav-gap-x: 80px;
+
+  --menu-gap-x: 22px;
+  --menu-gap-y: 22px;
+  --menu-width: 270px;
+  --menu-icon-size: 15px;
+  --menu-link-padding-x: 15px;
+  --menu-link-padding-y: 10px;
+  --menu-link-text-gap: 15px;
+
+  --main-content-gap-x: 50px;
+  --main-content-gap-y: 50px;
+
+  --footer-height: 85px;
+
+  --color-info-gap-x: 20px;
+  --color-info-gap-y: 25px;
+  --color-info-icon-size: 18px;
+  --color-info-icon-gap: 10px;
+  --color-info-content-gap: calc(var(--color-info-icon-size) + var(--color-info-icon-gap));
+}
+
+@media (max-width: 768px) {
+  .root {
+    --footer-height: 75px;
+  }
+}
+
+@media (max-width: 480px) {
+  .root {
+    --footer-height: 108px;
+  }
+}
