@@ -16,7 +16,7 @@ import {
 import { useRef } from "react";
 import { useState } from "react";
 
-import * as Api from "../../../../services/api.service";
+import { getDetailApp, putAppInfo } from "../../../../services/api.service";
 import { useEffect } from "react";
 import { useModal } from "../../../../providers/dom/modal";
 import {
@@ -63,12 +63,6 @@ function AppUpdate({ match }: UserViewProps): JSX.Element {
   const onlyText = /^[a-zA-Z\s]+$/;
   const onlyNumber = /^[0-9.]+$/;
 
-  const currentDetailApp = async (id: number) => {
-      const responseApp: ApiResponse = await Api.getDetailApp(id);
-      console.log(responseApp)
-      setCurrentData(responseApp.data)
-  }
-
   const validateName = (event: React.ChangeEvent<HTMLInputElement>) => {
     const names = event.target.value;
 
@@ -109,46 +103,23 @@ function AppUpdate({ match }: UserViewProps): JSX.Element {
 
   async function update(event: FormEvent): Promise<void> {
     event.preventDefault();
-    const data = {
-      id: routeID,
-      idapptype: idType,
-      name: name,
-      description: description,
-      serverToken: serverToken,
+    const dataInfo = {
+      id: parseInt(routeID),
+      idapptype: idType || currentData.type === 'Movil' ? 1 : 2,
+      name: name || currentData.name,
+      startdate: "2021-08-10T15:07:06.264Z",
+      description: description || currentData.description,
+      serverToken: serverToken || currentData.serverToken,
+      Updateuserid: AuthData?.user?.userId
     };
 
-    if (
-      isEmpty(data.name) ||
-      isEmpty(data.description) ||
-      isEmpty(data.serverToken)
-    ) {
-      console.log("E");
-      modalData?.show({
-        title: "Alerta",
-        icon: "warning",
-        text: "Los campos no deben estar vacíos",
-        done: async (data: ModalData) => {
-          modalData?.hide(data);
-        },
-      });
-      return;
-    }
-    console.log(data);
-
-    try {
-      const response: ApiResponse = await Api.createApp(data);
-      modalData?.show({
-        title: "Alerta",
-        icon: "warning",
-        text: response.message,
-        done: async (data: ModalData) => {
-          modalData?.hide(data);
-          window.location.href = "/aplicacion";
-        },
-      });
-    } catch (e) {
-      //
-    }
+      putAppInfo(dataInfo)
+        .then((response: ApiResponse): void => {
+          console.log(response)
+        })
+        .catch((error) => {
+          console.error("asdasdasdasdasdasdsada", error);
+        })
   }
   function cancelCreate(): void {
     modalData?.show({
@@ -184,16 +155,28 @@ function AppUpdate({ match }: UserViewProps): JSX.Element {
       value: 2,
     },
   ];
+  const currentDetailApp = async (id: number) => {
+    const responseApp: ApiResponse = await getDetailApp(id);
+    console.log({ responseApp })
+    setCurrentData(responseApp.data)
+}
 
   useEffect(() => {
-    currentDetailApp(parseInt(routeID));
+    try {
+      console.log('Iniciando')
+      currentDetailApp(parseInt(routeID));
+    } catch (error) {
+      console.log('Aqui andamos', error)
+    }
+    
   }, [])
 
   return (
     <DashboardLayout>
       <div className="pt-32 px-12 pb-32">
-        <Header title="Crear usuario" lastPage="Usuarios" back="/usuarios" />
+        <Header title="Crear aplicación" lastPage="Aplicación" back="/aplicacion" />
         <div className="w-full px-8 py-10 shadow-xl">
+          <form onSubmit={update}>
           <div className="w-full mt-10">
             <label className=" mb-5 block dark-text text-base font-semibold">
               Categoria
@@ -253,6 +236,7 @@ function AppUpdate({ match }: UserViewProps): JSX.Element {
               }}
             />
           </div>
+          
           <div className="w-full actions-form flex items-center flex items-center-wrap mt-10">
             <button
               onClick={cancelCreate}
@@ -262,11 +246,12 @@ function AppUpdate({ match }: UserViewProps): JSX.Element {
             </button>
             <button
               className="action font-semibold text-center text-sm py-2 w-40"
-              onClick={update}
+              type="submit"
             >
               Agregar
             </button>
           </div>
+        </form>
         </div>
       </div>
     </DashboardLayout>

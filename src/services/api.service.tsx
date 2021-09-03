@@ -89,6 +89,21 @@ export async function getDetailApp(id: number): Promise<any> {
   return response.data;
 };
 
+export async function updateApplication(data: any = {}): Promise<ApiResponse> {
+  const response: AxiosResponse = await getServiceData('Application/Update', {
+    method: 'PUT',
+    data,
+  });
+  return response.data;
+}
+
+export const putAppInfo: ApiRequest = async (data: any = {}): Promise<ApiResponse> => {
+  const response: AxiosResponse = await getServiceData('Application/Update', {
+    method: 'PUT',
+    data,
+  });
+  return response.data;
+}
 // Operation module
 
 export async function getOperationList(data: any = {}): Promise<ApiResponse> {
@@ -169,7 +184,7 @@ async function getServiceData(
     return await requestData(API, path, {
       ...config,
       headers: {
-        Authorization: ` Bearer ${getBearerToken()}`
+        Authorization: `Bearer ${getBearerToken()}`
       }
     });
   };

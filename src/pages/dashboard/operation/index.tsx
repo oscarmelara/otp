@@ -116,7 +116,7 @@ export default function Operation(): JSX.Element {
     },
     {
         name: "Longitud",
-        selector: "lenght",
+        selector: "otpLength",
     },
     {
         name: "Web",

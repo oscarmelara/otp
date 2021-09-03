@@ -42,7 +42,12 @@ function ApplicationDetails({ match }: UserViewProps): JSX.Element {
 
 
   useEffect(() => {
-    operationData(idOperation);
+    try {
+      console.log('Iniciando view')
+      operationData(idOperation);
+    } catch (error) {
+      console.log('Aqui andamos view', error)
+    }
   }, []);
   return (
     <DashboardLayout>

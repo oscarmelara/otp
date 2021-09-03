@@ -58,6 +58,14 @@ export default function Users(): JSX.Element {
       selector: "role",
     },
     {
+      name: "Activación",
+      selector: "active",
+    },
+    {
+      name: "Bloqueo",
+      selector: "blocked",
+    },
+    {
       name: "Acciones",
       cell: (users: UsersData): JSX.Element => (
         <Options
@@ -66,38 +74,6 @@ export default function Users(): JSX.Element {
               icon: "far fa-edit",
               link: `/usuarios/editar/${users.idUsuarioApp}`,
             },
-            {
-              icon: "far fa-trash-alt",
-              link: `/usarios/${users.idUsuarioApp}/trash`,
-              preventDefault: true,
-              callback: async (): Promise<void> => {
-                modalData?.show({
-                  title: "Alerta",
-                  type: "confirm",
-                  text: "¿Estas seguro de eliminar este usuario?",
-                  cancel: async (data: ModalData) => {
-                    modalData.hide(data);
-                  },
-                  done: async (_data: ModalData) => {
-                    // Api.userDelete(users.idUsuarioApp).then(
-                    //   (response: any): void => {
-                    //     console.log(response);
-                    //     modalData.hide(_data, async (): Promise<void> => {
-                    //       modalData.show({
-                    //         title: "Alerta",
-                    //         text: "Usuario eliminado",
-                    //         done: async (_subData: ModalData) => {
-                    //           searchUsers();
-                    //           modalData?.hide(_subData);
-                    //         },
-                    //       });
-                    //     });
-                    //   }
-                    // );
-                  },
-                });
-              },
-            }
           ]}
         />
       ),

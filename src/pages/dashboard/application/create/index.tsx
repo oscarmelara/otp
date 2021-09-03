@@ -77,11 +77,11 @@ export default function AplicationCreate(): JSX.Element {
   };
 
   const validateId = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const names = event.target.value;
+    const id = event.target.value;
 
-    if (onlyNumber.test(names)) {
+    if (onlyNumber.test(id)) {
     setIsValidId(true);
-    setId(names);
+    setId(id);
     setMessageId("Campo valido");
     } else {
     setIsValidId(false);
@@ -105,6 +105,7 @@ export default function AplicationCreate(): JSX.Element {
   async function add(event: FormEvent): Promise<void> {
     event.preventDefault();
     const data = {
+        id: id,
         idapptype: idType,
         name: name,
         description: description,

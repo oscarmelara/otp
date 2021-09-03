@@ -95,7 +95,7 @@ export default function App() {
             <PrivateRoute exact path="/aplicacion">
               <Aplication />
             </PrivateRoute>
-            <PrivateRoute exact path="/aplicacion/detalles/:id">
+            <PrivateRoute path="/aplicacion/detalles/:id">
               <ApplicationDetails />
             </PrivateRoute>
             <PrivateRoute path="/aplicacion/crear">

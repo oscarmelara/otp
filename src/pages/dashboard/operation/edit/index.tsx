@@ -218,11 +218,12 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
   async function add(event: FormEvent): Promise<void> {
     event.preventDefault();
     const data = {
+      id: routeID,
       idcategory: idCategory || currentData.idCategory,
       name: name || currentData.name,
       duration: duration || currentData.duration,
       limit: limit || currentData.limit,
-      length: length || currentData.length,
+      OTPlength: length || currentData.otpLength as number,
       web: web || currentData.web === "Si" ? true : false,
       mobile: mobile || currentData.mobile === "Si" ? true : false,
       sms: sms || currentData.sms === "Si" ? true : false,
@@ -242,7 +243,15 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     
     try {
        const response: ApiResponse = await Api.updateOperation(data);
-        console.log('Operación Actualizada', response)
+       if (response.success === 0) {
+        modalData?.show({
+          title: 'Alerta',
+          text: response.message,
+          done: async (_data: ModalData) => {
+            modalData.hide(_data);
+          }
+        })
+       } else if (response.success) {
         modalData?.show({
           title: 'Alerta',
           text: response.message,
@@ -250,6 +259,7 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
             window.location.href = '/operacion'
           }
         })
+       }
     } catch (e) {
       //
     }
@@ -304,7 +314,7 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
   return (
     <DashboardLayout>
       <div className="pt-32 px-12 pb-32">
-        <Header title="Actualizar operación" lastPage="Usuarios" back="/operacion" />
+        <Header title="Actualizar operación" lastPage="Operación" back="/operacion" />
         <div className="w-full px-8 py-10 shadow-xl">
           <div className="w-full">
             <label className=" mb-5 block dark-text text-base font-semibold">
@@ -370,7 +380,7 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
             <input
               className="main-input font-medium p-2 dark-gray-text"
               type="text"
-              defaultValue={currentData.lenght}
+              defaultValue={currentData.otpLength}
               onChange={validateLength}
             />
             <p

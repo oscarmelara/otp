@@ -79,7 +79,7 @@ export default function Aplication(): JSX.Element {
           data={[
             {
                 icon: "far fa-eye",
-                link: `/aplicacion/${data.id}`
+                link: `/aplicacion/detalles/${data.id}`
             },
             {
               icon: "far fa-edit",
