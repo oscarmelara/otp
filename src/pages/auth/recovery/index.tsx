@@ -4,7 +4,7 @@
 
 import { useState } from "react";
 import { FormEvent } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import AuthLayout from "../../../layouts/auth";
 import * as Api from '../../../services/api.service';
@@ -19,6 +19,7 @@ import { isEmpty } from "lodash";
 
 export default function AuthAssingPassword(): JSX.Element {
   const modalData: ModalContextType = useModal();
+  const location = useLocation<any>();
   
   const [actualPw, setActualPw] = useState("");
   const [newPw, setNewPw] = useState("");
@@ -48,10 +49,10 @@ export default function AuthAssingPassword(): JSX.Element {
         <form
           onSubmit={async (event: FormEvent) => {
             event.preventDefault();
-            const idUser = localStorage.getItem('id')
-            
-
-            if (isEmpty(actualPw) || isEmpty(newPw) || isEmpty(confirmPw)) {
+            const params = new URLSearchParams(location.search);
+            const code: string | null = params.get('code');
+            const email: string | null = params.get('email');
+            if (isEmpty(newPw) || isEmpty(confirmPw)) {
               modalData?.show({
                 icon: 'warning',
                 text: 'Los campos no pueden estar vacíos',
@@ -62,46 +63,36 @@ export default function AuthAssingPassword(): JSX.Element {
 
               return;
             }
-            if (newPw !== confirmPw) {
-              modalData?.show({
-                icon: 'warning',
-                text: 'Las contraseñas no coinciden',
-                done: async (data: ModalData) => {
-                  modalData?.hide(data);
-                },
-              });
-
-              return;
-            }
-            const data = {
-              idUsuario: parseInt(idUser as string),
-              oldPassword: actualPw,
-              newPassword1: newPw,
-              newPassword2: confirmPw
-            }
             
+            const data = {
+              code: code,
+              email: email,
+              password: newPw,
+              passwordconfirm: confirmPw
+            }
+            console.log({data})
             try {
-              // const response: ApiResponse = await Api.newPassword(data);
-              // console.log(response)
-              // if (response.success === 0) {
-              //   modalData?.show({
-              //     title: 'Alerta',
-              //     icon: 'warning',
-              //     text: response.message,
-              //     done: async (data: ModalData) => {
-              //       modalData?.hide(data);
-              //     }
-              //   });
-              //   return;
-              // } else if (response.success === 1) {
-              //   modalData?.show({
-              //     title: 'Alerta',
-              //     text: 'La contraseña ha sido actualizada',
-              //     done: async (_data: ModalData) => {
-              //       window.location.href = '/auth/login'
-              //     }
-              //   });
-              // }
+              const response: ApiResponse = await Api.PasswordUpdate(data);
+              console.log(response)
+              if (response.success === 0) {
+                modalData?.show({
+                  title: 'Alerta',
+                  icon: 'warning',
+                  text: response.message,
+                  done: async (data: ModalData) => {
+                    modalData?.hide(data);
+                  }
+                });
+                return;
+              } else if (response.success === 1) {
+                modalData?.show({
+                  title: 'Alerta',
+                  text: 'La contraseña ha sido actualizada',
+                  done: async (_data: ModalData) => {
+                    window.location.href = '/auth/login'
+                  }
+                });
+              }
 
             } catch (error) {
               
@@ -145,18 +136,6 @@ export default function AuthAssingPassword(): JSX.Element {
           </div>
           <div className="input-form mb-10">
             <div className="input-group">
-              <input
-                type="password"
-                name="email"
-                className="card-input font-medium p-2 dark-gray-text"
-                placeholder="Contraseña actual"
-                id="email"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
-                  setActualPw(e.target.value)
-                }
-              />
-            </div>
-            <div className="input-group mt-5">
               <input
                 type="password"
                 name="email"

@@ -87,6 +87,9 @@ function OperationUpdate({match}: UserViewProps): JSX.Element {
   const [messagemail, setMessagemail] = useState("");
   const [idUser, setIdUser] = useState("");
   const [idCategory, setCategory] = useState("");
+  const [isActive, setIsActive] = useState(false)
+  const [isNumber, setIsNumber] = useState(false)
+  const [showOTP, setShowOTP] = useState(false)
 
   // Validacion email
   const onlyText = /^[a-zA-Z\s]+$/;
@@ -95,9 +98,33 @@ function OperationUpdate({match}: UserViewProps): JSX.Element {
   const routeID: string = (match.params as any)?.id;
 
   const currentOperationApp = async (id: number) => {
-    const responseApp: ApiResponse = await Api.getOperationDetail(id);
-    console.log(responseApp)
-    setCurrentData(responseApp.data)
+    await Api.getOperationDetail(id)
+      .then((response: ApiResponse) => {
+        console.log(response.data)
+        const data = {
+          ...response.data,
+          web: response.data.web === "Si",
+          mobile: response.data.mobile === "Si",
+          sms: response.data.sms === "Si",
+          email: response.data.email === "Si",
+          pushnotification: response.data.pushnotification === "Si",
+          storeotpraw: response.data.storeotpraw === "Si",
+          isactive: response.data.isactive === "Si",
+          isnumber: response.data.isnumber === "Si",
+          showotp: response.data.showotp === "Si",
+        };
+        setCurrentData(data);
+        setWeb(data.web);
+        setMobile(data.mobile);
+        setSms(data.sms);
+        setEmail(data.email);
+        setPushnotification(data.pushnotification);
+        setStoreotpraw(data.storeotpraw);
+        setIsActive(data.isactive);
+        setIsNumber(data.isnumber);
+        setShowOTP(data.showotp);
+        console.log({data})
+      })
 }
 
   const validateName = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -224,19 +251,21 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
       duration: duration || currentData.duration,
       limit: limit || currentData.limit,
       OTPlength: length || currentData.otpLength as number,
-      web: web || currentData.web === "Si" ? true : false,
-      mobile: mobile || currentData.mobile === "Si" ? true : false,
-      sms: sms || currentData.sms === "Si" ? true : false,
-      email: email || currentData.email === "Si" ? true : false,
+      web: web,
+      mobile: mobile,
+      sms: sms,
+      email: email,
       emailurl: emailurl || currentData.emailurl,
       emailurlmessage: emailurlmessage || currentData.emailurlmessage,
-      pushnotification: pushnotification || currentData.pushnotification === "Si" ? true : false,
+      pushnotification: pushnotification,
       pushmessage: pushmessage || currentData.pushmessage,
-      storeotpraw: storeotpraw || currentData.storeotpraw === "Si" ? true : false,
+      storeotpraw: storeotpraw,
       messagesms: messagesms || currentData.messagesms,
       messagemail: messagemail || currentData.messagemail,
       Updateuserid: AuthData?.user?.userId,
-      isactive: true
+      isactive: isActive,
+      isnumber: isNumber,
+      showotp: showOTP
     };
     console.log(data)
 
@@ -397,9 +426,9 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
               Web
             </label>
             <input
-              className="mr-3 font-medium p-2 dark-gray-text"
+              className="ml-3 font-medium p-2 dark-gray-text"
               type="checkbox"
-              checked={currentData.web === 'Si' ? true : false}
+              checked={web}
               onChange={(event: React.ChangeEvent<HTMLInputElement> ) => {
                 setWeb(!web)
               }}
@@ -410,9 +439,9 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
               Movil
             </label>
             <input
-              className="mr-3 font-medium p-2 dark-gray-text"
+              className="ml-3 font-medium p-2 dark-gray-text"
               type="checkbox"
-              checked={currentData.mobile === 'Si' ? true : false}
+              checked={mobile}
               onChange={(event: React.ChangeEvent<HTMLInputElement> ) => {
                 setMobile(!mobile)
               }}
@@ -423,9 +452,9 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
               SMS
             </label>
             <input
-              className="mr-3 font-medium p-2 dark-gray-text"
+              className="ml-3 font-medium p-2 dark-gray-text"
               type="checkbox"
-              checked={currentData.sms === 'Si' ? true : false}
+              checked={sms}
               onChange={(event: React.ChangeEvent<HTMLInputElement> ) => {
                 setSms(!sms)
               }}
@@ -436,9 +465,9 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
               email
             </label>
             <input
-              className="mr-3 font-medium p-2 dark-gray-text"
+              className="ml-3 font-medium p-2 dark-gray-text"
               type="checkbox"
-              checked={currentData.email === 'Si' ? true : false}
+              checked={email}
               onChange={(event: React.ChangeEvent<HTMLInputElement> ) => {
                 setEmail(!email)
               }}
@@ -487,9 +516,9 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
               push notification
             </label>
             <input
-              className="mr-3 font-medium p-2 dark-gray-text"
+              className="ml-3 font-medium p-2 dark-gray-text"
               type="checkbox"
-              checked={currentData.pushnotification === 'Si' ? true : false}
+              checked={pushnotification}
               onChange={(event: React.ChangeEvent<HTMLInputElement> ) => {
                 setPushnotification(!pushnotification)
               }}
@@ -500,7 +529,7 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
               pushmessage
             </label>
             <input
-              className="main-input mr-3 font-medium p-2 dark-gray-text"
+              className="main-input ml-3 font-medium p-2 dark-gray-text"
               type="text"
               defaultValue={currentData.pushmessage}
               onChange={validatePushMessage}
@@ -519,9 +548,9 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
               storeotpraw
             </label>
             <input
-              className="mr-3 font-medium p-2 dark-gray-text"
+              className="ml-3 font-medium p-2 dark-gray-text"
               type="checkbox"
-              checked={currentData.storeotpraw === 'Si' ? true : false}
+              checked={storeotpraw}
               onChange={(event: React.ChangeEvent<HTMLInputElement> ) => {
                 setStoreotpraw(!storeotpraw)
               }}
@@ -573,6 +602,45 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
               options={categories}
               defaultValue={currentData.idcategory}
               onChange={(item: any) => setCategory(item.value)}
+            />
+          </div>
+          <div className="w-full mt-10 flex items-center">
+            <label className=" block dark-text text-base font-semibold">
+              Activación
+            </label>
+            <input
+              className="ml-3 font-medium p-2 dark-gray-text"
+              type="checkbox"
+              checked={isActive}
+              onChange={(event: React.ChangeEvent<HTMLInputElement> ) => {
+                setIsActive(!isActive)
+              }}
+            />
+          </div>
+          <div className="w-full mt-10 flex items-center">
+            <label className=" block dark-text text-base font-semibold">
+              Es numérico?
+            </label>
+            <input
+              className="ml-3 font-medium p-2 dark-gray-text"
+              type="checkbox"
+              checked={isNumber}
+              onChange={(event: React.ChangeEvent<HTMLInputElement> ) => {
+                setIsNumber(!isNumber)
+              }}
+            />
+          </div>
+          <div className="w-full mt-10 flex items-center">
+            <label className=" block dark-text text-base font-semibold">
+              Mostrar OTP?
+            </label>
+            <input
+              className="ml-3 font-medium p-2 dark-gray-text"
+              type="checkbox"
+              checked={showOTP}
+              onChange={(event: React.ChangeEvent<HTMLInputElement> ) => {
+                setShowOTP(!showOTP)
+              }}
             />
           </div>
           <div className="w-full actions-form flex items-center flex items-center-wrap mt-10">

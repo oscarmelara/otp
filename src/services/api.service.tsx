@@ -3,7 +3,7 @@ import { isEmpty } from 'lodash';
 import { getBearerToken } from '../services/utils';
 // import { isEmpty } from 'lodash';
 
-import { ApiAuthResponse, ApiRequest, ApiRequestFunction, ApiResponse, ApiUserResponse } from '../interfaces/services/api'
+import { ApiRequest, ApiRequestFunction, ApiResponse } from '../interfaces/services/api'
 
 export const API = 'http://10.45.2.115:8091';
 export const security_key = 'mm_ht3f_d45Dg800+!56k890fEg@gRT45k_8612dfg232';
@@ -16,8 +16,40 @@ export const login: ApiRequest = async (data: any = {}): Promise<ApiResponse> =>
           'SecurityKey' : security_key
         }
     });
-
     return response.data;
+}
+
+export const ActivateUser: ApiRequest = async (data: any = {}): Promise<ApiResponse> => {
+  const response: AxiosResponse = await getAuth('Account/Activation', {
+    method: 'PUT',
+    data,
+    headers: {
+      'SecurityKey' : security_key
+    }
+  });
+  return response.data;
+}
+
+export const PasswordUpdate: ApiRequest = async (data: any = {}): Promise<ApiResponse> => {
+  const response: AxiosResponse = await getAuth('Account/PasswordUpdate', {
+    method: 'PUT',
+    data,
+    headers: {
+      'SecurityKey' : security_key
+    }
+  });
+  return response.data;
+}
+
+export const PasswordRecovery: ApiRequest = async (data: any = {}): Promise<ApiResponse> => {
+  const response: AxiosResponse = await getAuth('Account/PasswordRecovery', {
+      method: 'POST',
+      data,
+      headers: {
+        'SecurityKey' : security_key
+      }
+  });
+  return response.data;
 }
 
 // User module
@@ -40,6 +72,22 @@ export async function getProfile(idUser: number): Promise<any> {
 export const createUser: ApiRequest = async (data: any = {}): Promise<ApiResponse> => {
   const response: AxiosResponse = await getServiceData('User/Create', {
     method: 'POST',
+    data,
+  });
+  return response.data;
+}
+
+export async function getUserDetail(idUser: number): Promise<any> {
+  const response: AxiosResponse = await getServiceData(`User/Detail?id=${idUser}`, {
+    method: 'GET',
+  });
+
+  return response.data;
+};
+
+export async function updateUser(data: any = {}): Promise<ApiResponse> {
+  const response: AxiosResponse = await getServiceData('User/Update', {
+    method: 'PUT',
     data,
   });
   return response.data;
@@ -154,6 +202,32 @@ export const updateOperation: ApiRequest = async (data: any = {}): Promise<ApiRe
   return response.data;
 }
 
+
+// Log Module
+
+export async function getDataChangeLog(start: any, end: any): Promise<ApiResponse> {
+  const response: AxiosResponse = await getServiceData(`ChangeLog/Get?start=${start}&end=${end}`, {
+    method: 'GET',
+  });
+  return response.data;
+}
+
+// OTP Module
+
+export async function getDataOTPLog(start: any, end: any): Promise<ApiResponse> {
+  const response: AxiosResponse = await getServiceData(`OTPLog/Get?start=${start}&end=${end}`, {
+    method: 'GET',
+  });
+  return response.data;
+}
+
+export async function getOtpDetails(id: number): Promise<any> {
+  const response: AxiosResponse = await getServiceData(`OTPLog/Detail?id=${id}`, {
+    method: 'GET',
+  });
+
+  return response.data;
+};
 
 
 

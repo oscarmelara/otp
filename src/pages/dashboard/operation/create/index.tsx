@@ -87,6 +87,8 @@ export default function OperationCreate(): JSX.Element {
   const [messagemail, setMessagemail] = useState("");
   const [idUser, setIdUser] = useState("");
   const [idCategory, setCategory] = useState("");
+  const [isNumber, setIsNumber] = useState(false)
+  const [showOTP, setShowOTP] = useState(false)
 
   // Validacion email
   const onlyText = /^[a-zA-Z\s]+$/;
@@ -227,7 +229,7 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
       name: name,
       duration: duration,
       limit: limit,
-      length: length,
+      OTPLength: length,
       web: web,
       mobile: mobile,
       sms: sms,
@@ -239,11 +241,12 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
       storeotpraw: storeotpraw,
       messagesms: messagesms,
       messagemail: messagemail,
+      isnumber: isNumber,
+      showotp: showOTP,
       Createuserid: AuthData?.user?.userId,
     };
-    console.log(data)
 
-    if (isEmpty(data.name) || isEmpty(data.duration) || isEmpty(data.limit) || isEmpty(data.length) || isEmpty(data.emailurlmessage) ) {
+    if (isEmpty(data.name) || isEmpty(data.duration) || isEmpty(data.limit) || isEmpty(data.OTPLength) || isEmpty(data.emailurlmessage) ) {
       console.log("E");
       modalData?.show({
         title: "Alerta",
@@ -595,6 +598,32 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
             <Select
               options={categories}
               onChange={(item: any) => setCategory(item.value)}
+            />
+          </div>
+          <div className="w-full mt-10 flex items-center">
+            <label className=" block dark-text text-base font-semibold">
+              ¿Es numérico?
+            </label>
+            <input
+              className="ml-3 font-medium p-2 dark-gray-text"
+              type="checkbox"
+              checked={isNumber}
+              onChange={(event: React.ChangeEvent<HTMLInputElement> ) => {
+                setPushnotification(!isNumber)
+              }}
+            />
+          </div>
+          <div className="w-full mt-10 flex items-center">
+            <label className=" block dark-text text-base font-semibold">
+              ¿Mostrar OTP?
+            </label>
+            <input
+              className="ml-3 font-medium p-2 dark-gray-text"
+              type="checkbox"
+              checked={showOTP}
+              onChange={(event: React.ChangeEvent<HTMLInputElement> ) => {
+                setPushnotification(!showOTP)
+              }}
             />
           </div>
           <div className="w-full actions-form flex items-center flex items-center-wrap mt-10">

@@ -1,0 +1,40 @@
+.button-create {
+     background: #041E41;
+      color: #fff;
+      outline: none;
+      width: 100%;
+      border-radius: 8px;
+      &:hover {
+        opacity: .75;
+        transition: all .2s linear;
+      }
+}
+
+
+    .wrapper-header {
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+  
+      .wrapper-actions {
+        display: flex;
+        justify-content: center;
+        margin-left: 20px;
+  
+        
+      }
+    }
+  
+  
+  @media (max-width: 1335px) {
+      .wrapper-header {
+        .wrapper-actions {
+          flex-wrap: wrap;
+          margin-left: 0;
+          margin-top: 20px;
+          width: 100%;
+        }
+      }
+    }
+  

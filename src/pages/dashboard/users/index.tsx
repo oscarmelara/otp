@@ -11,7 +11,7 @@ import Options from "../../../components/table/options";
 import * as Api from "../../../services/api.service";
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { UsersData } from "../../../interfaces/pages/users";
+import { UsersData, UserViewProps } from "../../../interfaces/pages/users";
 import { useModal } from "../../../providers/dom/modal";
 import {
   ModalContextType,
@@ -72,7 +72,7 @@ export default function Users(): JSX.Element {
           data={[
             {
               icon: "far fa-edit",
-              link: `/usuarios/editar/${users.idUsuarioApp}`,
+              link: `/usuarios/editar/${users.id}`,
             },
           ]}
         />

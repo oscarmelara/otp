@@ -20,11 +20,13 @@ import AuthLoginPage from './pages/auth/login';
 import AuthForgotPage from './pages/auth/forgot';
 import AuthAssingPassword from './pages/auth/recovery';
 import AuthOtp  from './pages/auth/otp';
+import ActivateUser from './pages/auth/activate'
 
 import Home from './pages/dashboard/home';
 
 import Users from './pages/dashboard/users';
 import UserCreate from './pages/dashboard/users/create';
+import UserUpdate from './pages/dashboard/users/edit';
 
 import Aplication from './pages/dashboard/application';
 import ApplicationDetails from './pages/dashboard/application/view'
@@ -35,6 +37,11 @@ import Operation from './pages/dashboard/operation';
 import OperationDetails from './pages/dashboard/operation/view';
 import OperationCreate from './pages/dashboard/operation/create'
 import OperationUpdate from './pages/dashboard/operation/edit'
+
+import ChangeLog from './pages/dashboard/changelog'
+
+import OTPLog from './pages/dashboard/logsOTP'
+import OTPDetails from './pages/dashboard/logsOTP/view'
 
 import ModalProvider, { useModal } from './providers/dom/modal';
 import { ModalContextType } from './interfaces/providers/dom/modal';
@@ -63,12 +70,15 @@ export default function App() {
             <PrivateRoute path="/auth/login" type="auth">
               <AuthLoginPage />
             </PrivateRoute>
+            <PrivateRoute path="/auth/recovery" type="auth">
+              <AuthAssingPassword />
+            </PrivateRoute>
+            <PrivateRoute path="/auth/activate-user" type="auth">
+              <ActivateUser />
+            </PrivateRoute>
 
             <PrivateRoute path="/auth/forgot" type="auth">
               <AuthForgotPage />
-            </PrivateRoute>
-            <PrivateRoute path="/auth/otp" type="auth">
-              <AuthOtp />
             </PrivateRoute>
 
             <PrivateRoute path="/auth/nueva-contraseña" type="auth">
@@ -90,6 +100,9 @@ export default function App() {
             </PrivateRoute>
             <PrivateRoute path="/usuarios/crear">
               <UserCreate />
+            </PrivateRoute>
+            <PrivateRoute path="/usuarios/editar/:id">
+              <UserUpdate />
             </PrivateRoute>
 
             <PrivateRoute exact path="/aplicacion">
@@ -116,6 +129,17 @@ export default function App() {
             </PrivateRoute>
             <PrivateRoute exact path="/operacion/editar/:id">
               <OperationUpdate />
+            </PrivateRoute>
+
+            <PrivateRoute exact path="/registro-cambios">
+              <ChangeLog />
+            </PrivateRoute>
+
+            <PrivateRoute exact path="/registro-OTP">
+              <OTPLog />
+            </PrivateRoute>
+            <PrivateRoute path="/registro-OTP/detalles/:id">
+              <OTPDetails />
             </PrivateRoute>
            
           </Switch>

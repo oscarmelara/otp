@@ -78,6 +78,15 @@ export default function AuthLoginPage(): JSX.Element {
                     }
                   });
 
+              } else if (response.success === 3) {
+                modalData?.show({
+                  title: 'Alerta',
+                  text: 'Bienvenido, seras redirigido para que puedas actualizar tu contraseña',
+                  done: async (data: ModalData) => {
+                    modalData?.hide(data);
+                    window.location.href = response.message
+                  }
+                });
               }
 
        

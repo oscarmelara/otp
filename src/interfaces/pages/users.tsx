@@ -6,9 +6,13 @@ export type CreateUserInputElement = HTMLInputElement | null;
 export type CreateUserInputRef = MutableRefObject<CreateUserInputElement>;
 
 export interface UsersData{
-    idUsuarioApp: number;
-    nombreUsuario: string;
-    activo: boolean;
+    id: number;
+    username: string;
+    email: string;
+    role: string;
+    active: string;
+    blocked: string;
+
 }
 
 export interface ArrayUserApp {

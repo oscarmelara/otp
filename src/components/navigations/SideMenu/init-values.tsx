@@ -30,6 +30,16 @@ export const navItems: Array<NavItem> = [
     name: 'Operación',
     url: '/operacion',
   },
+  {
+    icon: 'fas fa-list',
+    name: 'Registro OTP',
+    url: '/registro-OTP',
+  },
+  {
+    icon: 'fas fa-clipboard-list',
+    name: 'Registro de cambios',
+    url: '/registro-cambios',
+  },
   // {
   //   icon: 'fas fa-mobile-alt',
   //   name: 'Usuarios APP',
