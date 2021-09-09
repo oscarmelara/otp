@@ -85,21 +85,7 @@ export default function ChangeLog(): JSX.Element {
     {
       name: 'Fecha de creación',
       selector: "createdate"
-    },
-    {
-      name: "Acciones",
-      cell: (users: UsersData): JSX.Element => (
-        <Options
-          data={[
-            {
-              icon: "far fa-edit",
-              link: `/usuarios/editar/${users.id}`,
-            },
-          ]}
-        />
-      ),
-      width: "200px",
-    },
+    }
   ];
   return (
     <DashboardLayout>
