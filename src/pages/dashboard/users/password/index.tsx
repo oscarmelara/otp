@@ -68,7 +68,7 @@ export default function AuthAChangePassword(): JSX.Element {
                 userId: parseInt(AuthData?.user?.userId as string),
                 Updateuserid: parseInt(AuthData?.user?.userId as string),
               password: newPw,
-              passwordconfirm: confirmPw
+              confirmPassword: confirmPw
             }
             console.log({data})
             try {
