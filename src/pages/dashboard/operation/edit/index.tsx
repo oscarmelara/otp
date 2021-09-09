@@ -428,7 +428,7 @@ function OperationUpdate({ match }: UserViewProps): JSX.Element {
           </div>
           <div className="w-full mt-10 flex items-center">
             <label className=" block dark-text text-base font-semibold">
-              email
+            Email
             </label>
             <input
               className="ml-3 font-medium p-2 dark-gray-text"
@@ -441,7 +441,7 @@ function OperationUpdate({ match }: UserViewProps): JSX.Element {
           </div>
           <div className="w-full mt-10">
             <label className=" mb-5 block dark-text text-base font-semibold">
-              emailurl
+            Url de email
             </label>
             <input
               className="main-input font-medium p-2 dark-gray-text"
@@ -459,7 +459,7 @@ function OperationUpdate({ match }: UserViewProps): JSX.Element {
           </div>
           <div className="w-full mt-10">
             <label className=" mb-5 block dark-text text-base font-semibold">
-              emailurlmessage
+            Mensaje de url email
             </label>
             <input
               className="main-input font-medium p-2 dark-gray-text"
@@ -477,7 +477,7 @@ function OperationUpdate({ match }: UserViewProps): JSX.Element {
           </div>
           <div className="w-full mt-10 flex items-center">
             <label className=" block dark-text text-base font-semibold">
-              push notification
+            Notificación push
             </label>
             <input
               className="ml-3 font-medium p-2 dark-gray-text"
@@ -490,7 +490,7 @@ function OperationUpdate({ match }: UserViewProps): JSX.Element {
           </div>
           <div className="w-full mt-10">
             <label className=" mb-3 block dark-text text-base font-semibold">
-              pushmessage
+            Mensaje para notificación push
             </label>
             <input
               className="main-input ml-3 font-medium p-2 dark-gray-text"
@@ -516,7 +516,7 @@ function OperationUpdate({ match }: UserViewProps): JSX.Element {
           </div>
           <div className="w-full mt-10">
             <label className=" mb-5 block dark-text text-base font-semibold">
-              messagesms
+              Mensaje de SMS
             </label>
             <input
               className="main-input font-medium p-2 dark-gray-text"
