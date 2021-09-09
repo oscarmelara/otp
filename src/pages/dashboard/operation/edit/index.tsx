@@ -6,13 +6,10 @@ import DashboardLayout from "../../../../layouts/dashboard";
 import Header from "../../../../components/header";
 import React, { FormEvent } from "react";
 import Select from "react-select";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
-import {
-  CreateUserInputElement,
-  CreateUserInputRef,
-  UserViewProps,
-} from "../../../../interfaces/pages/users";
-import { useRef } from "react";
+import { UserViewProps } from "../../../../interfaces/pages/users";
 import { useState } from "react";
 
 import * as Api from "../../../../services/api.service";
@@ -22,7 +19,6 @@ import {
   ModalContextType,
   ModalData,
 } from "../../../../interfaces/providers/dom/modal";
-import { isEmpty } from "lodash";
 import { CategoryData } from "../../../../interfaces/pages/operation";
 import { ApiResponse } from "../../../../interfaces/services/api";
 import { AuthContextType } from "../../../../interfaces/providers/auth";
@@ -33,12 +29,11 @@ import { withRouter } from "react-router-dom";
 //   Page
 // -----------------------------------------------------------------------------
 
-function OperationUpdate({match}: UserViewProps): JSX.Element {
-
+function OperationUpdate({ match }: UserViewProps): JSX.Element {
   const AuthData: AuthContextType = useAuth();
   const modalData: ModalContextType = useModal();
 
-  const [currentData, setCurrentData] = useState<any>('');
+  const [currentData, setCurrentData] = useState<any>("");
 
   const [isValidName, setIsValidName] = useState(false);
   const [messageName, setMessageName] = useState("");
@@ -52,23 +47,14 @@ function OperationUpdate({match}: UserViewProps): JSX.Element {
   const [isValidLength, setIsValidLength] = useState(false);
   const [messageLength, setMessageLength] = useState("");
 
-
   const [isValidEmailUrl, setIsValidEmailUrl] = useState(false);
   const [messageEmailUrl, setMessageEmailUrl] = useState("");
 
   const [isValidEmailUrlMessage, setIsValidEmailUrlMessage] = useState(false);
   const [messageEmailUrlMessage, setMessageEmailUrlMessage] = useState("");
 
-  const [isValidPushMessage, setIsValidPushMessage] = useState(false);
-  const [messagePushMessage, setMessagePushMessage] = useState("");
-
-  const [isValidMessageSms, setIsValidMessageSms] = useState(false);
-  const [messageMessageSms, setMessageMessageSms] = useState("");
-
-  const [isValidMessageEmail, setIsValidMessageEmail] = useState(false);
-  const [messageMessageEmail, setMessageMessageEmail] = useState("");
-
   const [categories, setCategories] = useState<CategoryData[]>([]);
+  const [currentCategory, setCurrentCategory] = useState<CategoryData[]>([]);
 
   const [name, setName] = useState("");
   const [duration, setduration] = useState("");
@@ -85,59 +71,59 @@ function OperationUpdate({match}: UserViewProps): JSX.Element {
   const [storeotpraw, setStoreotpraw] = useState(false);
   const [messagesms, setMessagesms] = useState("");
   const [messagemail, setMessagemail] = useState("");
-  const [idUser, setIdUser] = useState("");
   const [idCategory, setCategory] = useState("");
-  const [isActive, setIsActive] = useState(false)
-  const [isNumber, setIsNumber] = useState(false)
-  const [showOTP, setShowOTP] = useState(false)
+  const [isActive, setIsActive] = useState(false);
+  const [isNumber, setIsNumber] = useState(false);
+  const [showOTP, setShowOTP] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(true);
 
   // Validacion email
   const onlyText = /^[a-zA-Z\s]+$/;
   const onlyNumber = /^[0-9.]+$/;
- 
+
   const routeID: string = (match.params as any)?.id;
 
   const currentOperationApp = async (id: number) => {
-    await Api.getOperationDetail(id)
-      .then((response: ApiResponse) => {
-        console.log(response.data)
-        const data = {
-          ...response.data,
-          web: response.data.web === "Si",
-          mobile: response.data.mobile === "Si",
-          sms: response.data.sms === "Si",
-          email: response.data.email === "Si",
-          pushnotification: response.data.pushnotification === "Si",
-          storeotpraw: response.data.storeotpraw === "Si",
-          isactive: response.data.isactive === "Si",
-          isnumber: response.data.isnumber === "Si",
-          showotp: response.data.showotp === "Si",
-        };
-        setCurrentData(data);
-        setWeb(data.web);
-        setMobile(data.mobile);
-        setSms(data.sms);
-        setEmail(data.email);
-        setPushnotification(data.pushnotification);
-        setStoreotpraw(data.storeotpraw);
-        setIsActive(data.isactive);
-        setIsNumber(data.isnumber);
-        setShowOTP(data.showotp);
-        console.log({data})
-      })
-}
+    await Api.getOperationDetail(id).then((response: ApiResponse) => {
+      const data = {
+        ...response.data,
+        web: response.data.web === "Si",
+        mobile: response.data.mobile === "Si",
+        sms: response.data.sms === "Si",
+        email: response.data.email === "Si",
+        pushnotification: response.data.pushnotification === "Si",
+        storeotpraw: response.data.storeotpraw === "Si",
+        isactive: response.data.isactive === "Si",
+        isnumber: response.data.isnumber === "Si",
+        showotp: response.data.showotp === "Si",
+      };
+      setCurrentData(data);
+      setWeb(data.web);
+      setMobile(data.mobile);
+      setSms(data.sms);
+      setEmail(data.email);
+      setPushnotification(data.pushnotification);
+      setStoreotpraw(data.storeotpraw);
+      setIsActive(data.isactive);
+      setIsNumber(data.isnumber);
+      setShowOTP(data.showotp);
+      setMessagemail(data.messagemail);
+      showCategories(data.idCategory);
+    });
+  };
 
   const validateName = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const names = event.target.value;
+    const names = event.target.value;
 
-        if (onlyText.test(names)) {
-        setIsValidName(true);
-        setName(names);
-        setMessageName("Campo valido");
-        } else {
-        setIsValidName(false);
-        setMessageName("Solamente puedes ingresar letras");
-        }
+    if (onlyText.test(names)) {
+      setIsValidName(true);
+      setName(names);
+      setMessageName("Campo valido");
+    } else {
+      setIsValidName(false);
+      setMessageName("Solamente puedes ingresar letras");
+    }
   };
 
   const validateDuration = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -148,8 +134,8 @@ function OperationUpdate({match}: UserViewProps): JSX.Element {
       setduration(number);
       setMessageDuration("Campo valido");
     } else {
-        setIsValidDuration(false);
-        setMessageDuration("Solamente puedes ingresar números");
+      setIsValidDuration(false);
+      setMessageDuration("Solamente puedes ingresar números");
     }
   };
   const validateLimit = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -160,8 +146,8 @@ function OperationUpdate({match}: UserViewProps): JSX.Element {
       setlimit(number);
       setMessageLimit("Campo valido");
     } else {
-        setIsValidLimit(false);
-        setMessageLimit("Solamente puedes ingresar números");
+      setIsValidLimit(false);
+      setMessageLimit("Solamente puedes ingresar números");
     }
   };
 
@@ -173,8 +159,8 @@ function OperationUpdate({match}: UserViewProps): JSX.Element {
       setlength(number);
       setMessageLength("Campo valido");
     } else {
-        setIsValidLength(false);
-        setMessageLength("Solamente puedes ingresar números");
+      setIsValidLength(false);
+      setMessageLength("Solamente puedes ingresar números");
     }
   };
 
@@ -182,65 +168,29 @@ function OperationUpdate({match}: UserViewProps): JSX.Element {
     const names = event.target.value;
 
     if (onlyText.test(names)) {
-    setIsValidEmailUrl(true);
-    setEmailurl(names);
-    setMessageEmailUrl("Campo valido");
+      setIsValidEmailUrl(true);
+      setEmailurl(names);
+      setMessageEmailUrl("Campo valido");
     } else {
-    setIsValidEmailUrl(false);
-    setMessageEmailUrl("Solamente puedes ingresar letras");
+      setIsValidEmailUrl(false);
+      setMessageEmailUrl("Solamente puedes ingresar letras");
     }
-};
+  };
 
-const validateEmailUrlMessage = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const validateEmailUrlMessage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const names = event.target.value;
 
     if (onlyText.test(names)) {
-    setIsValidEmailUrlMessage(true);
-    setEmailurlmessage(names);
-    setMessageEmailUrlMessage("Campo valido");
+      setIsValidEmailUrlMessage(true);
+      setEmailurlmessage(names);
+      setMessageEmailUrlMessage("Campo valido");
     } else {
-    setIsValidEmailUrlMessage(false);
-    setMessageEmailUrlMessage("Solamente puedes ingresar letras");
+      setIsValidEmailUrlMessage(false);
+      setMessageEmailUrlMessage("Solamente puedes ingresar letras");
     }
-};
-const validatePushMessage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const data = event.target.value;
-
-    if (onlyText.test(data)) {
-    setIsValidPushMessage(true);
-    setPushmessage(data);
-    setMessagePushMessage("Campo valido");
-    } else {
-    setIsValidPushMessage(false);
-    setMessagePushMessage("Solamente puedes ingresar letras");
-    }
-};
-
-const validateMessageSms = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const names = event.target.value;
-
-    if (onlyText.test(names)) {
-    setIsValidMessageSms(true);
-    setMessagesms(names);
-    setMessageMessageSms("Campo valido");
-    } else {
-    setIsValidMessageSms(false);
-    setMessageMessageSms("Solamente puedes ingresar letras");
-    }
-};
-
-const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const names = event.target.value;
-
-    if (onlyText.test(names)) {
-    setIsValidMessageEmail(true);
-    setMessagemail(names);
-    setMessageMessageEmail("Campo valido");
-    } else {
-        setIsValidMessageEmail(false);
-        setMessageMessageEmail("Solamente puedes ingresar letras");
-    }
-};
+  };
 
   async function add(event: FormEvent): Promise<void> {
     event.preventDefault();
@@ -250,7 +200,7 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
       name: name || currentData.name,
       duration: duration || currentData.duration,
       limit: limit || currentData.limit,
-      OTPlength: length || currentData.otpLength as number,
+      OTPlength: length || (currentData.otpLength as number),
       web: web,
       mobile: mobile,
       sms: sms,
@@ -265,30 +215,28 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
       Updateuserid: AuthData?.user?.userId,
       isactive: isActive,
       isnumber: isNumber,
-      showotp: showOTP
+      showotp: showOTP,
     };
-    console.log(data)
 
-    
     try {
-       const response: ApiResponse = await Api.updateOperation(data);
-       if (response.success === 0) {
+      const response: ApiResponse = await Api.updateOperation(data);
+      if (response.success === 0) {
         modalData?.show({
-          title: 'Alerta',
+          title: "Alerta",
           text: response.message,
           done: async (_data: ModalData) => {
             modalData.hide(_data);
-          }
-        })
-       } else if (response.success) {
+          },
+        });
+      } else if (response.success) {
         modalData?.show({
-          title: 'Alerta',
+          title: "Alerta",
           text: response.message,
           done: async (_data: ModalData) => {
-            window.location.href = '/operacion'
-          }
-        })
-       }
+            window.location.href = "/operacion";
+          },
+        });
+      }
     } catch (e) {
       //
     }
@@ -319,31 +267,39 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
 
   const getProfile = async () => {
     const response: ApiResponse = await Api.getCategoryList();
-    console.log(response.data)
-  }
-  
-  const showCategories = async () => {
-    const responseCategories: any = await Api.getCategoryList();
+  };
+  const showCategories = async (idCategory: number) => {
+    await Api.getCategoryList().then((response: ApiResponse) => {
+      const filteredCategories = response.data.map((item: any) => ({
+        label: item.name,
+        value: item.id,
+      }));
 
-    const filteredCategories = responseCategories.data.map((item: any) => ({
-      label: item.name,
-      value: item.id,
-    }));
+      setCategories(filteredCategories);
+      console.log({filteredCategories})
+      const selectCategory = filteredCategories.filter(
+        (item: any) => item.value === idCategory
+      );
+      setCurrentCategory(selectCategory);
+      setIsLoading(false);
+      console.log({selectCategory},); 
 
-    setCategories(filteredCategories)
-  }
+    });
+  };
 
   useEffect(() => {
-    showCategories();
-    getProfile()
-    currentOperationApp(parseInt(routeID))
+    currentOperationApp(parseInt(routeID));
   }, []);
 
-  
+  console.log(currentCategory)
   return (
     <DashboardLayout>
       <div className="pt-32 px-12 pb-32">
-        <Header title="Actualizar operación" lastPage="Operación" back="/operacion" />
+        <Header
+          title="Actualizar operación"
+          lastPage="Operación"
+          back="/operacion"
+        />
         <div className="w-full px-8 py-10 shadow-xl">
           <div className="w-full">
             <label className=" mb-5 block dark-text text-base font-semibold">
@@ -360,9 +316,22 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
                 isValidName ? "text-green-500" : "text-red-500"
               }`}
             >
-              
               {messageName}
             </p>
+          </div>
+          <div className="w-full mt-10">
+            <label className=" mb-5 block dark-text text-base font-semibold">
+              Categoria
+            </label>
+            {
+              !isLoading && (
+                <Select
+                  options={categories}
+                  defaultValue={currentCategory[0]}
+                  onChange={(item: any) => setCategory(item.value)}
+                />
+              )
+            }
           </div>
           <div className="w-full mt-10">
             <label className=" mb-5 block dark-text text-base font-semibold">
@@ -379,7 +348,6 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
                 isValidDuration ? "text-green-500" : "text-red-500"
               }`}
             >
-              
               {messageDuration}
             </p>
           </div>
@@ -398,7 +366,6 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
                 isValidLimit ? "text-green-500" : "text-red-500"
               }`}
             >
-              
               {messageLimit}
             </p>
           </div>
@@ -417,7 +384,6 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
                 isValidLength ? "text-green-500" : "text-red-500"
               }`}
             >
-              
               {messageLength}
             </p>
           </div>
@@ -429,8 +395,8 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
               className="ml-3 font-medium p-2 dark-gray-text"
               type="checkbox"
               checked={web}
-              onChange={(event: React.ChangeEvent<HTMLInputElement> ) => {
-                setWeb(!web)
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                setWeb(!web);
               }}
             />
           </div>
@@ -442,8 +408,8 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
               className="ml-3 font-medium p-2 dark-gray-text"
               type="checkbox"
               checked={mobile}
-              onChange={(event: React.ChangeEvent<HTMLInputElement> ) => {
-                setMobile(!mobile)
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                setMobile(!mobile);
               }}
             />
           </div>
@@ -455,8 +421,8 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
               className="ml-3 font-medium p-2 dark-gray-text"
               type="checkbox"
               checked={sms}
-              onChange={(event: React.ChangeEvent<HTMLInputElement> ) => {
-                setSms(!sms)
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                setSms(!sms);
               }}
             />
           </div>
@@ -468,8 +434,8 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
               className="ml-3 font-medium p-2 dark-gray-text"
               type="checkbox"
               checked={email}
-              onChange={(event: React.ChangeEvent<HTMLInputElement> ) => {
-                setEmail(!email)
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                setEmail(!email);
               }}
             />
           </div>
@@ -488,7 +454,6 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
                 isValidEmailUrl ? "text-green-500" : "text-red-500"
               }`}
             >
-              
               {messageEmailUrl}
             </p>
           </div>
@@ -507,7 +472,6 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
                 isValidEmailUrlMessage ? "text-green-500" : "text-red-500"
               }`}
             >
-              
               {messageEmailUrlMessage}
             </p>
           </div>
@@ -519,8 +483,8 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
               className="ml-3 font-medium p-2 dark-gray-text"
               type="checkbox"
               checked={pushnotification}
-              onChange={(event: React.ChangeEvent<HTMLInputElement> ) => {
-                setPushnotification(!pushnotification)
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                setPushnotification(!pushnotification);
               }}
             />
           </div>
@@ -532,16 +496,10 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
               className="main-input ml-3 font-medium p-2 dark-gray-text"
               type="text"
               defaultValue={currentData.pushmessage}
-              onChange={validatePushMessage}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                setPushmessage(event.target.value);
+              }}
             />
-            <p
-              className={`text-sm font-semibold mt-2 message ${
-                isValidPushMessage ? "text-green-500" : "text-red-500"
-              }`}
-            >
-              
-              {messagePushMessage}
-            </p>
           </div>
           <div className="w-full mt-10 flex items-center">
             <label className=" block dark-text text-base font-semibold">
@@ -551,8 +509,8 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
               className="ml-3 font-medium p-2 dark-gray-text"
               type="checkbox"
               checked={storeotpraw}
-              onChange={(event: React.ChangeEvent<HTMLInputElement> ) => {
-                setStoreotpraw(!storeotpraw)
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                setStoreotpraw(!storeotpraw);
               }}
             />
           </div>
@@ -564,44 +522,20 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
               className="main-input font-medium p-2 dark-gray-text"
               type="text"
               defaultValue={currentData.messagesms}
-              onChange={validateMessageSms}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                setMessagesms(event.target.value);
+              }}
             />
-            <p
-              className={`text-sm font-semibold mt-2 message ${
-                isValidMessageSms ? "text-green-500" : "text-red-500"
-              }`}
-            >
-              
-              {messageMessageSms}
-            </p>
           </div>
           <div className="w-full mt-10">
             <label className=" mb-5 block dark-text text-base font-semibold">
-              messagemail
+              Mensaje de email
             </label>
-            <input
-              className="main-input font-medium p-2 dark-gray-text"
-              type="text"
-              defaultValue={currentData.messagemail}
-              onChange={validateMessageEmail}
-            />
-            <p
-              className={`text-sm font-semibold mt-2 message ${
-                isValidMessageEmail ? "text-green-500" : "text-red-500"
-              }`}
-            >
-              
-              {messageMessageEmail}
-            </p>
-          </div>
-          <div className="w-full mt-10">
-            <label className=" mb-5 block dark-text text-base font-semibold">
-              Categoria
-            </label>
-            <Select
-              options={categories}
-              defaultValue={currentData.idcategory}
-              onChange={(item: any) => setCategory(item.value)}
+
+            <ReactQuill
+              theme="snow"
+              value={`<p> ${currentData.messagemail} </p>`}
+              onChange={setMessagemail}
             />
           </div>
           <div className="w-full mt-10 flex items-center">
@@ -612,8 +546,8 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
               className="ml-3 font-medium p-2 dark-gray-text"
               type="checkbox"
               checked={isActive}
-              onChange={(event: React.ChangeEvent<HTMLInputElement> ) => {
-                setIsActive(!isActive)
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                setIsActive(!isActive);
               }}
             />
           </div>
@@ -625,8 +559,8 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
               className="ml-3 font-medium p-2 dark-gray-text"
               type="checkbox"
               checked={isNumber}
-              onChange={(event: React.ChangeEvent<HTMLInputElement> ) => {
-                setIsNumber(!isNumber)
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                setIsNumber(!isNumber);
               }}
             />
           </div>
@@ -638,8 +572,8 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
               className="ml-3 font-medium p-2 dark-gray-text"
               type="checkbox"
               checked={showOTP}
-              onChange={(event: React.ChangeEvent<HTMLInputElement> ) => {
-                setShowOTP(!showOTP)
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                setShowOTP(!showOTP);
               }}
             />
           </div>

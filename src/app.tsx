@@ -27,6 +27,7 @@ import Home from './pages/dashboard/home';
 import Users from './pages/dashboard/users';
 import UserCreate from './pages/dashboard/users/create';
 import UserUpdate from './pages/dashboard/users/edit';
+import AuthAChangePassword from './pages/dashboard/users/password';
 
 import Aplication from './pages/dashboard/application';
 import ApplicationDetails from './pages/dashboard/application/view'
@@ -103,6 +104,10 @@ export default function App() {
             </PrivateRoute>
             <PrivateRoute path="/usuarios/editar/:id">
               <UserUpdate />
+            </PrivateRoute>
+
+            <PrivateRoute path="/cambiar-contraseña">
+              <AuthAChangePassword />
             </PrivateRoute>
 
             <PrivateRoute exact path="/aplicacion">

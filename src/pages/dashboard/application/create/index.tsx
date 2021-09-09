@@ -182,7 +182,7 @@ export default function AplicationCreate(): JSX.Element {
   return (
     <DashboardLayout>
       <div className="pt-32 px-12 pb-32">
-        <Header title="Crear usuario" lastPage="Usuarios" back="/usuarios" />
+        <Header title="Crear aplicación" lastPage="Aplicación" back="/aplicacion" />
         <div className="w-full px-8 py-10 shadow-xl">
         <div className="w-full">
             <label className=" mb-5 block dark-text text-base font-semibold">

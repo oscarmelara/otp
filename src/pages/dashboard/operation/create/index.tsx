@@ -6,6 +6,8 @@ import DashboardLayout from "../../../../layouts/dashboard";
 import Header from "../../../../components/header";
 import React, { FormEvent } from "react";
 import Select from "react-select";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 import {
   CreateUserInputElement,
@@ -32,7 +34,7 @@ import { useAuth } from "../../../../providers/auth";
 // -----------------------------------------------------------------------------
 
 export default function OperationCreate(): JSX.Element {
-
+  const [value, setValue] = useState('');
   const AuthData: AuthContextType = useAuth();
   const modalData: ModalContextType = useModal();
 
@@ -89,6 +91,7 @@ export default function OperationCreate(): JSX.Element {
   const [idCategory, setCategory] = useState("");
   const [isNumber, setIsNumber] = useState(false)
   const [showOTP, setShowOTP] = useState(false)
+  const initialValue = '<p></p>'
 
   // Validacion email
   const onlyText = /^[a-zA-Z\s]+$/;
@@ -245,6 +248,7 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
       showotp: showOTP,
       Createuserid: AuthData?.user?.userId,
     };
+    console.log(messagemail)
 
     if (isEmpty(data.name) || isEmpty(data.duration) || isEmpty(data.limit) || isEmpty(data.OTPLength) || isEmpty(data.emailurlmessage) ) {
       console.log("E");
@@ -513,7 +517,7 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
           </div>
           <div className="w-full mt-10 flex items-center">
             <label className=" block dark-text text-base font-semibold">
-              push notification
+              Notificación push
             </label>
             <input
               className="ml-3 font-medium p-2 dark-gray-text"
@@ -526,12 +530,14 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
           </div>
           <div className="w-full mt-10">
             <label className=" mb-3 block dark-text text-base font-semibold">
-              pushmessage
+              Mensaje para notificación push
             </label>
             <input
-              className="main-input ml-3 font-medium p-2 dark-gray-text"
+              className="main-input font-medium p-2 dark-gray-text"
               type="text"
-              onChange={validatePushMessage}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                setPushmessage(event.target.value)
+              }}
             />
             <p
               className={`text-sm font-semibold mt-2 message ${
@@ -557,12 +563,14 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
           </div>
           <div className="w-full mt-10">
             <label className=" mb-5 block dark-text text-base font-semibold">
-              messagesms
+              Mensaje de SMS
             </label>
             <input
               className="main-input font-medium p-2 dark-gray-text"
               type="text"
-              onChange={validateMessageSms}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                setMessagesms(event.target.value)
+              }}
             />
             <p
               className={`text-sm font-semibold mt-2 message ${
@@ -575,21 +583,9 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
           </div>
           <div className="w-full mt-10">
             <label className=" mb-5 block dark-text text-base font-semibold">
-              messagemail
+              Mensaje de email
             </label>
-            <input
-              className="main-input font-medium p-2 dark-gray-text"
-              type="text"
-              onChange={validateMessageEmail}
-            />
-            <p
-              className={`text-sm font-semibold mt-2 message ${
-                isValidMessageEmail ? "text-green-500" : "text-red-500"
-              }`}
-            >
-              
-              {messageMessageEmail}
-            </p>
+            <ReactQuill theme="snow" value={messagemail} onChange={setMessagemail}/>
           </div>
           <div className="w-full mt-10">
             <label className=" mb-5 block dark-text text-base font-semibold">

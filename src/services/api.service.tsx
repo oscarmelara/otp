@@ -93,6 +93,14 @@ export async function updateUser(data: any = {}): Promise<ApiResponse> {
   return response.data;
 }
 
+export async function updatePasswordProfile(data: any = {}): Promise<ApiResponse> {
+  const response: AxiosResponse = await getServiceData('User/ChangePassword', {
+    method: 'PUT',
+    data,
+  });
+  return response.data;
+}
+
 
 
 // Application module

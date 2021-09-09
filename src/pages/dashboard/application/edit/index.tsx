@@ -26,7 +26,7 @@ import {
 
 import "react-datepicker/dist/react-datepicker.css";
 
-import { isEmpty } from "lodash";
+import { filter, isEmpty } from "lodash";
 import { CategoryData } from "../../../../interfaces/pages/operation";
 import { ApiResponse } from "../../../../interfaces/services/api";
 import { AuthContextType } from "../../../../interfaces/providers/auth";
@@ -43,7 +43,7 @@ function AppUpdate({ match }: UserViewProps): JSX.Element {
   const [currentData, setCurrentData] = useState<any>('');
   const [isValidName, setIsValidName] = useState(false);
   const [messageName, setMessageName] = useState("");
-
+  const [isLoading, setIsLoading] = useState(true);
   const [isValidDescription, setIsValidDescription] = useState(false);
   const [messageDescription, setMessageDescription] = useState("");
 
@@ -55,7 +55,7 @@ function AppUpdate({ match }: UserViewProps): JSX.Element {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [serverToken, setServerToken] = useState("");
-  const [startDate, setStartDate] = useState(new Date());
+  const [currentCategory, setCurrentCategory] = useState<any[]>([]);
 
   const routeID: string = (match.params as any)?.id;
   // Validacion email
@@ -155,37 +155,48 @@ function AppUpdate({ match }: UserViewProps): JSX.Element {
       value: 2,
     },
   ];
-  const currentDetailApp = async (id: number) => {
-    const responseApp: ApiResponse = await getDetailApp(id);
-    console.log({ responseApp })
-    setCurrentData(responseApp.data)
+
+
+  const currentAppData = async (id: number) => {
+    await getDetailApp(id)
+      .then((response: ApiResponse) => {
+        const data = {
+          ...response.data
+        }
+        setCurrentData(data);
+        currentType(data.idType)
+      })
+    
+}
+
+const currentType = async (idType: number) => {
+  const filterData: any = options.filter((item: any) => item.value === idType)
+  setCurrentCategory(filterData);
+  setIsLoading(false);
 }
 
   useEffect(() => {
-    try {
-      console.log('Iniciando')
-      currentDetailApp(parseInt(routeID));
-    } catch (error) {
-      console.log('Aqui andamos', error)
-    }
-    
+    currentAppData(parseInt(routeID));
   }, [])
 
   return (
     <DashboardLayout>
       <div className="pt-32 px-12 pb-32">
-        <Header title="Crear aplicación" lastPage="Aplicación" back="/aplicacion" />
+        <Header title="Editar aplicación" lastPage="Aplicación" back="/aplicacion" />
         <div className="w-full px-8 py-10 shadow-xl">
           <form onSubmit={update}>
           <div className="w-full mt-10">
             <label className=" mb-5 block dark-text text-base font-semibold">
-              Categoria
+              Tipo
             </label>
-            <Select
-              options={options}
-              defaultValue={currentData.type}
-              onChange={(item: any) => setIdType(item.value)}
-            />
+            { !isLoading && (
+                <Select
+                options={options}
+                defaultValue={currentCategory[0]}
+                onChange={(item: any) => setIdType(item.value)}
+              />
+            ) }
+            
           </div>
           <div className="w-full mt-10">
             <label className=" mb-5 block dark-text text-base font-semibold">

@@ -141,31 +141,31 @@ const currentuUserData = async (id: number) => {
       return;
     }
     console.log(data)
-    // try {
-    //    const response: ApiResponse = await Api.updateUser(data);
-    //    if (response.success === 0) {
-    //     modalData?.show({
-    //       title: 'Alerta',
-    //       text: response.message,
-    //       done: async (data: ModalData) => {
-    //         modalData?.hide(data);
-    //       },
-    //     })
-    //    } else if (response.success === 1) {
-    //     modalData?.show({
-    //         title: 'Alerta',
-    //         text: response.message,
-    //         done: async (data: ModalData) => {
-    //           modalData?.hide(data);
-    //           window.location.href = "/usuarios";
-    //         },
-    //       })
-    //    }
-    //    console.log('mensaje', response)
+    try {
+       const response: ApiResponse = await Api.updateUser(data);
+       if (response.success === 0) {
+        modalData?.show({
+          title: 'Alerta',
+          text: response.message,
+          done: async (data: ModalData) => {
+            modalData?.hide(data);
+          },
+        })
+       } else if (response.success === 1) {
+        modalData?.show({
+            title: 'Alerta',
+            text: response.message,
+            done: async (data: ModalData) => {
+              modalData?.hide(data);
+              window.location.href = "/usuarios";
+            },
+          })
+       }
+       console.log('mensaje', response)
         
-    // } catch (e) {
-    //   //
-    // }
+    } catch (e) {
+      //
+    }
   }
   function cancelCreate(): void {
     modalData?.show({

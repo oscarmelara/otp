@@ -98,6 +98,10 @@ export default function Operation(): JSX.Element {
         ),
         width: "200px",
       },
+      {
+        name: 'ID de operación',
+        selector: 'id'
+      },
     {
       name: "Categoria",
       selector: "category",

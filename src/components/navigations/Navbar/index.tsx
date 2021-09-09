@@ -3,7 +3,7 @@
 //   Imports
 // -----------------------------------------------------------------------------
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import {
@@ -17,11 +17,17 @@ import { useToggleOffCanvas } from '../../../providers/dom/navigations';
 
 import './navbar.scss';
 
+import * as Api from '../../../services/api.service'
+import { ApiResponse } from '../../../interfaces/services/api';
+import { useAuth } from '../../../providers/auth';
+import { AuthContextType } from '../../../interfaces/providers/auth';
 // -----------------------------------------------------------------------------
 //   Component
 // -----------------------------------------------------------------------------
 
 export default function Navbar(): JSX.Element {
+  const AuthData: AuthContextType = useAuth();
+  const [currentUser, setCurrentUser] = useState<any>('');
   const responseOffCanvas: ToggleMenuContextType = useToggleOffCanvas();
   const [toggle, setToggle]: NavDropdownState = useState<boolean>(false);
   const linkNavClassName: string = useMemo((): string => {
@@ -55,6 +61,17 @@ export default function Navbar(): JSX.Element {
     responseOffCanvas?.setOffCanvas(!responseOffCanvas?.offCanvas);
   };
 
+  useEffect(() => {
+    Api.getProfile(parseInt(AuthData?.user?.userId as string))
+      .then((response: ApiResponse) => {
+        setCurrentUser(response.data);
+        console.log(response.data)
+      })
+      .catch((error) => {
+        //
+      })
+  }, [])
+
   return (
     <>
       <nav className="main-nav flex items-center justify-between absolute top-0 w-full py-3 px-12">
@@ -73,8 +90,8 @@ export default function Navbar(): JSX.Element {
               onClick={onClickDropdown}
             >
               <div className="info text-right">
-                <span className="name font-bold text-xl dark-text" title="John Doe">John Doe</span>
-                <span className="role text-xs" title="Operative admin">Administrador</span>
+                <span className="name font-bold text-xl dark-text" title="John Doe"> {currentUser.username} </span>
+                <span className="role text-xs" title="Operative admin">{currentUser.role}</span>
               </div>
               <div className="icon-container flex items-center justify-center">
                 <i className="fas fa-chevron-down"></i>
@@ -83,7 +100,7 @@ export default function Navbar(): JSX.Element {
             <div className="dropdown">
               <ul className="list">
                 <li className="item">
-                  <a href="/usuarios/cambiar-contraseña" className="text-sm sub-link flex items-center">
+                  <a href="/cambiar-contraseña" className="text-sm sub-link flex items-center">
                     <span className="icon-container">
                     <i className="fas fa-user-shield"></i>
                     </span>
