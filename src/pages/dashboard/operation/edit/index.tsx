@@ -110,6 +110,7 @@ function OperationUpdate({ match }: UserViewProps): JSX.Element {
       setShowOTP(data.showotp);
       setMessagemail(data.messagemail);
       showCategories(data.idCategory);
+      console.log({data})
     });
   };
 
@@ -200,7 +201,7 @@ function OperationUpdate({ match }: UserViewProps): JSX.Element {
       name: name || currentData.name,
       duration: duration || currentData.duration,
       limit: limit || currentData.limit,
-      OTPlength: length || (currentData.otpLength as number),
+      otpLength: length || (currentData.otpLength as number),
       web: web,
       mobile: mobile,
       sms: sms,
@@ -534,8 +535,10 @@ function OperationUpdate({ match }: UserViewProps): JSX.Element {
 
             <ReactQuill
               theme="snow"
-              value={`<p> ${currentData.messagemail} </p>`}
+              defaultValue={currentData.messagemail}
+              value={messagemail}
               onChange={setMessagemail}
+
             />
           </div>
           <div className="w-full mt-10 flex items-center">

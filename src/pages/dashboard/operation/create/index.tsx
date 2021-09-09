@@ -75,7 +75,7 @@ export default function OperationCreate(): JSX.Element {
   const [name, setName] = useState("");
   const [duration, setduration] = useState("");
   const [limit, setlimit] = useState("");
-  const [length, setlength] = useState("");
+  const [otplength, setlength] = useState("");
   const [web, setWeb] = useState(false);
   const [mobile, setMobile] = useState(false);
   const [sms, setSms] = useState(false);
@@ -89,8 +89,8 @@ export default function OperationCreate(): JSX.Element {
   const [messagemail, setMessagemail] = useState("");
   const [idUser, setIdUser] = useState("");
   const [idCategory, setCategory] = useState("");
-  const [isNumber, setIsNumber] = useState(false)
-  const [showOTP, setShowOTP] = useState(false)
+  const [numeric, setIsNumber] = useState(false)
+  const [showotp, setShowOTP] = useState(false)
   const initialValue = '<p></p>'
 
   // Validacion email
@@ -226,31 +226,8 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
 
   async function add(event: FormEvent): Promise<void> {
     event.preventDefault();
-    const data = {
-      id: id,
-      idcategory: idCategory,
-      name: name,
-      duration: duration,
-      limit: limit,
-      OTPLength: length,
-      web: web,
-      mobile: mobile,
-      sms: sms,
-      email: email,
-      emailurl: emailurl,
-      emailurlmessage: emailurlmessage,
-      pushnotification: pushnotification,
-      pushmessage: pushmessage,
-      storeotpraw: storeotpraw,
-      messagesms: messagesms,
-      messagemail: messagemail,
-      isnumber: isNumber,
-      showotp: showOTP,
-      Createuserid: AuthData?.user?.userId,
-    };
-    console.log(messagemail)
-
-    if (isEmpty(data.name) || isEmpty(data.duration) || isEmpty(data.limit) || isEmpty(data.OTPLength) || isEmpty(data.emailurlmessage) ) {
+    
+    if (isEmpty(name) || isEmpty(duration) || isEmpty(limit) || isEmpty(otplength) ) {
       console.log("E");
       modalData?.show({
         title: "Alerta",
@@ -262,6 +239,33 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
       });
       return;
     }
+    const idUser = parseInt(AuthData?.user?.userId as string)
+    console.log(idUser)
+    const data = {
+      id: parseInt(id),
+      idcategory: idCategory,
+      name: name,
+      duration: parseInt(duration),
+      limit: parseInt(limit),
+      otpLength: parseInt(otplength),
+      web: web,
+      mobile: mobile,
+      sms: sms,
+      email: email,
+      emailurl: emailurl,
+      emailurlmessage: emailurlmessage,
+      pushnotification: pushnotification,
+      pushmessage: pushmessage,
+      storeotpraw: storeotpraw,
+      messagesms: messagesms,
+      messagemail: messagemail,
+      isnumber: numeric,
+      showotp: showotp,
+      Createuserid: AuthData?.user?.userId,
+    };
+    console.log(data)
+
+    
     try {
        const response: ApiResponse = await Api.createOperation(data);
        if (response.success === 0) {
@@ -603,9 +607,9 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
             <input
               className="ml-3 font-medium p-2 dark-gray-text"
               type="checkbox"
-              checked={isNumber}
+              checked={numeric}
               onChange={(event: React.ChangeEvent<HTMLInputElement> ) => {
-                setPushnotification(!isNumber)
+                setIsNumber(!numeric)
               }}
             />
           </div>
@@ -616,9 +620,9 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
             <input
               className="ml-3 font-medium p-2 dark-gray-text"
               type="checkbox"
-              checked={showOTP}
+              checked={showotp}
               onChange={(event: React.ChangeEvent<HTMLInputElement> ) => {
-                setPushnotification(!showOTP)
+                setShowOTP(!showotp)
               }}
             />
           </div>
