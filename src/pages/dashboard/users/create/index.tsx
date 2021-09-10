@@ -68,7 +68,7 @@ export default function UserCreate(): JSX.Element {
         if (onlyText.test(names)) {
         setIsValidName(true);
         setName(names);
-        setMessageName("Campo valido");
+        setMessageName("Campo válido");
         } else {
         setIsValidName(false);
         setMessageName("Solamente puedes ingresar letras");
@@ -80,10 +80,10 @@ export default function UserCreate(): JSX.Element {
     if (emailRegex.test(names)) {
     setIsValidEmail(true);
     setEmail(names);
-    setMessageEmail("Campo valido");
+    setMessageEmail("Campo válido");
     } else {
     setIsValidEmail(false);
-    setMessageEmail("Ingresa un correo valido");
+    setMessageEmail("Ingresa un correo válido");
     }
 };
 const validatePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -92,7 +92,7 @@ const validatePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (password.test(names)) {
     setIsValidPass(true);
     setPass(names);
-    setMessagePass("Campo valido");
+    setMessagePass("Campo válido");
     } else {
     setIsValidPass(false);
     setMessagePass("Ingresa una contraseña valida");
@@ -104,7 +104,7 @@ const validateConfirmPassword = (event: React.ChangeEvent<HTMLInputElement>) => 
     if (password.test(names)) {
     setIsValidConfirmPass(true);
     setConfirmPass(names);
-    setMessageConfirmPass("Campo valido");
+    setMessageConfirmPass("Campo válido");
     } else {
     setIsValidConfirmPass(false);
     setMessageConfirmPass("Solamente puedes ingresar letras");
@@ -213,7 +213,7 @@ const validateConfirmPassword = (event: React.ChangeEvent<HTMLInputElement>) => 
           </div>
           <div className="w-full mt-10">
             <label className=" mb-5 block dark-text text-base font-semibold">
-              Correo electronico
+              Correo electrónico
             </label>
             <input
               className="main-input font-medium p-2 dark-gray-text"

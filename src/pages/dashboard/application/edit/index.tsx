@@ -69,7 +69,7 @@ function AppUpdate({ match }: UserViewProps): JSX.Element {
     if (onlyText.test(names)) {
       setIsValidName(true);
       setName(names);
-      setMessageName("Campo valido");
+      setMessageName("Campo válido");
     } else {
       setIsValidName(false);
       setMessageName("Solamente puedes ingresar letras");
@@ -82,10 +82,10 @@ function AppUpdate({ match }: UserViewProps): JSX.Element {
     if (onlyNumber.test(names)) {
       setIsValidId(true);
       setId(names);
-      setMessageId("Campo valido");
+      setMessageId("Campo válido");
     } else {
       setIsValidId(false);
-      setMessageId("Solamente puedes ingresar numeros");
+      setMessageId("Solamente puedes ingresar números");
     }
   };
   const validateDescription = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -94,10 +94,10 @@ function AppUpdate({ match }: UserViewProps): JSX.Element {
     if (onlyText.test(names)) {
       setIsValidDescription(true);
       setDescription(names);
-      setMessageDescription("Campo valido");
+      setMessageDescription("Campo válido");
     } else {
       setIsValidDescription(false);
-      setMessageDescription("Ingresa un correo valido");
+      setMessageDescription("Ingresa un correo válido");
     }
   };
 

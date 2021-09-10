@@ -73,7 +73,7 @@ function UserUpdate({match}: UserViewProps): JSX.Element {
         if (onlyText.test(names)) {
         setIsValidName(true);
         setName(names);
-        setMessageName("Campo valido");
+        setMessageName("Campo válido");
         } else {
         setIsValidName(false);
         setMessageName("Solamente puedes ingresar letras");
@@ -85,10 +85,10 @@ function UserUpdate({match}: UserViewProps): JSX.Element {
     if (emailRegex.test(names)) {
     setIsValidEmail(true);
     setEmail(names);
-    setMessageEmail("Campo valido");
+    setMessageEmail("Campo válido");
     } else {
     setIsValidEmail(false);
-    setMessageEmail("Ingresa un correo valido");
+    setMessageEmail("Ingresa un correo válido");
     }
 };
 
@@ -223,7 +223,7 @@ const currentuUserData = async (id: number) => {
           </div>
           <div className="w-full mt-10">
             <label className=" mb-5 block dark-text text-base font-semibold">
-              Correo electronico
+              Correo electrónico
             </label>
             <input
               className="main-input font-medium p-2 dark-gray-text"

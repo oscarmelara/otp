@@ -120,7 +120,7 @@ function OperationUpdate({ match }: UserViewProps): JSX.Element {
     if (onlyText.test(names)) {
       setIsValidName(true);
       setName(names);
-      setMessageName("Campo valido");
+      setMessageName("Campo válido");
     } else {
       setIsValidName(false);
       setMessageName("Solamente puedes ingresar letras");
@@ -133,7 +133,7 @@ function OperationUpdate({ match }: UserViewProps): JSX.Element {
     if (onlyNumber.test(number)) {
       setIsValidDuration(true);
       setduration(number);
-      setMessageDuration("Campo valido");
+      setMessageDuration("Campo válido");
     } else {
       setIsValidDuration(false);
       setMessageDuration("Solamente puedes ingresar números");
@@ -145,7 +145,7 @@ function OperationUpdate({ match }: UserViewProps): JSX.Element {
     if (onlyNumber.test(number)) {
       setIsValidLimit(true);
       setlimit(number);
-      setMessageLimit("Campo valido");
+      setMessageLimit("Campo válido");
     } else {
       setIsValidLimit(false);
       setMessageLimit("Solamente puedes ingresar números");
@@ -158,7 +158,7 @@ function OperationUpdate({ match }: UserViewProps): JSX.Element {
     if (onlyNumber.test(number)) {
       setIsValidLength(true);
       setlength(number);
-      setMessageLength("Campo valido");
+      setMessageLength("Campo válido");
     } else {
       setIsValidLength(false);
       setMessageLength("Solamente puedes ingresar números");
@@ -171,7 +171,7 @@ function OperationUpdate({ match }: UserViewProps): JSX.Element {
     if (onlyText.test(names)) {
       setIsValidEmailUrl(true);
       setEmailurl(names);
-      setMessageEmailUrl("Campo valido");
+      setMessageEmailUrl("Campo válido");
     } else {
       setIsValidEmailUrl(false);
       setMessageEmailUrl("Solamente puedes ingresar letras");
@@ -186,7 +186,7 @@ function OperationUpdate({ match }: UserViewProps): JSX.Element {
     if (onlyText.test(names)) {
       setIsValidEmailUrlMessage(true);
       setEmailurlmessage(names);
-      setMessageEmailUrlMessage("Campo valido");
+      setMessageEmailUrlMessage("Campo válido");
     } else {
       setIsValidEmailUrlMessage(false);
       setMessageEmailUrlMessage("Solamente puedes ingresar letras");

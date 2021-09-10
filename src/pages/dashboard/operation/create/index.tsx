@@ -102,10 +102,10 @@ export default function OperationCreate(): JSX.Element {
     if (onlyNumber.test(id)) {
     setIsValidId(true);
     setId(id);
-    setMessageId("Campo valido");
+    setMessageId("Campo válido");
     } else {
     setIsValidId(false);
-    setMessageId("Solamente puedes ingresar numeros");
+    setMessageId("Solamente puedes ingresar números");
     }
 };
 
@@ -115,7 +115,7 @@ export default function OperationCreate(): JSX.Element {
         if (onlyText.test(names)) {
         setIsValidName(true);
         setName(names);
-        setMessageName("Campo valido");
+        setMessageName("Campo válido");
         } else {
         setIsValidName(false);
         setMessageName("Solamente puedes ingresar letras");
@@ -128,7 +128,7 @@ export default function OperationCreate(): JSX.Element {
     if (onlyNumber.test(number)) {
       setIsValidDuration(true);
       setduration(number);
-      setMessageDuration("Campo valido");
+      setMessageDuration("Campo válido");
     } else {
         setIsValidDuration(false);
         setMessageDuration("Solamente puedes ingresar números");
@@ -140,7 +140,7 @@ export default function OperationCreate(): JSX.Element {
     if (onlyNumber.test(number)) {
       setIsValidLimit(true);
       setlimit(number);
-      setMessageLimit("Campo valido");
+      setMessageLimit("Campo válido");
     } else {
         setIsValidLimit(false);
         setMessageLimit("Solamente puedes ingresar números");
@@ -153,7 +153,7 @@ export default function OperationCreate(): JSX.Element {
     if (onlyNumber.test(number)) {
       setIsValidLength(true);
       setlength(number);
-      setMessageLength("Campo valido");
+      setMessageLength("Campo válido");
     } else {
         setIsValidLength(false);
         setMessageLength("Solamente puedes ingresar números");
@@ -166,7 +166,7 @@ export default function OperationCreate(): JSX.Element {
     if (onlyText.test(names)) {
     setIsValidEmailUrl(true);
     setEmailurl(names);
-    setMessageEmailUrl("Campo valido");
+    setMessageEmailUrl("Campo válido");
     } else {
     setIsValidEmailUrl(false);
     setMessageEmailUrl("Solamente puedes ingresar letras");
@@ -179,7 +179,7 @@ const validateEmailUrlMessage = (event: React.ChangeEvent<HTMLInputElement>) => 
     if (onlyText.test(names)) {
     setIsValidEmailUrlMessage(true);
     setEmailurlmessage(names);
-    setMessageEmailUrlMessage("Campo valido");
+    setMessageEmailUrlMessage("Campo válido");
     } else {
     setIsValidEmailUrlMessage(false);
     setMessageEmailUrlMessage("Solamente puedes ingresar letras");
@@ -191,7 +191,7 @@ const validatePushMessage = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (onlyText.test(data)) {
     setIsValidPushMessage(true);
     setPushmessage(data);
-    setMessagePushMessage("Campo valido");
+    setMessagePushMessage("Campo válido");
     } else {
     setIsValidPushMessage(false);
     setMessagePushMessage("Solamente puedes ingresar letras");
@@ -204,7 +204,7 @@ const validateMessageSms = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (onlyText.test(names)) {
     setIsValidMessageSms(true);
     setMessagesms(names);
-    setMessageMessageSms("Campo valido");
+    setMessageMessageSms("Campo válido");
     } else {
     setIsValidMessageSms(false);
     setMessageMessageSms("Solamente puedes ingresar letras");
@@ -217,7 +217,7 @@ const validateMessageEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (onlyText.test(names)) {
     setIsValidMessageEmail(true);
     setMessagemail(names);
-    setMessageMessageEmail("Campo valido");
+    setMessageMessageEmail("Campo válido");
     } else {
         setIsValidMessageEmail(false);
         setMessageMessageEmail("Solamente puedes ingresar letras");
